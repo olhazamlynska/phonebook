@@ -1,15 +1,12 @@
-import { useFormik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-hot-toast';
-import { addContact } from 'redux/contacts/contactsOperations';
-import {
-  selectContacts,
-  selectIsLoading,
-} from 'redux/contacts/contactsSelectors';
-import { validationSchemaAddContact } from 'constants/validationSchema';
-import { Box, Grid, Modal, TextField } from '@mui/material';
+import { selectIsLoading } from 'redux/contacts/contactsSelectors';
+import { updateContact } from 'redux/contacts/contactsOperations';
+import { useFormik } from 'formik';
+import { Modal, Box, Grid, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
+import { validationSchemaAddContact } from 'constants/validationSchema';
+import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
+import { toast } from 'react-hot-toast';
 const styleModal = {
   position: 'absolute',
   top: '50%',
@@ -22,27 +19,20 @@ const styleModal = {
   p: 4,
 };
 
-export function AddModal({ isOpen, handleClose }) {
-  const contacts = useSelector(selectContacts);
-  const isLoading = useSelector(selectIsLoading);
+export const EditModal = ({ isOpen, handleClose, id, name, number }) => {
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsLoading);
 
-  const handleSubmit = ({ name, number }, { resetForm }) => {
-    const isAddedName = contacts.some(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    const isAddedNunber = contacts.some(contact => contact.number === number);
-
-    if (isAddedName) {
-      toast.failure(`We have already had contact with name ${name}`);
-      return false;
-    } else if (isAddedNunber) {
-      toast.failure(`We have already had contact with number ${number}`);
-      return false;
+  const handleSubmit = (values, { resetForm }) => {
+    if (
+      name.trim().toLowercase() === values.name.trim().toLowercase() &&
+      number === values.number
+    ) {
+      toast.error(`We have already had contact with such data`);
+      return;
     }
 
-    dispatch(addContact({ name, number }))
+    dispatch(updateContact({ id, values }))
       .unwrap()
       .then(() => {
         toast.success('You add contact!');
@@ -55,20 +45,20 @@ export function AddModal({ isOpen, handleClose }) {
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      number: '',
+      name,
+      number,
     },
     validationSchema: validationSchemaAddContact,
     onSubmit: handleSubmit,
   });
 
   return (
-    <>
+    <div>
       <Modal
         open={isOpen}
         onClose={handleClose}
-        aria-labelledby="modal-add-contact"
-        aria-describedby="modal-add-contact"
+        aria-labelledby="modal-edit-contact"
+        aria-describedby="modal-edit-contact"
       >
         <Box sx={styleModal}>
           <form onSubmit={formik.handleSubmit}>
@@ -88,7 +78,6 @@ export function AddModal({ isOpen, handleClose }) {
                   helperText={formik.touched.name && formik.errors.name}
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   type="tel"
@@ -110,13 +99,13 @@ export function AddModal({ isOpen, handleClose }) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
               loading={isLoading}
-              endIcon={<PersonAddAlt1OutlinedIcon />}
+              endIcon={<ModeEditOutlineRoundedIcon />}
             >
-              Add contact
+              Edit
             </LoadingButton>
           </form>
         </Box>
       </Modal>
-    </>
+    </div>
   );
-}
+};

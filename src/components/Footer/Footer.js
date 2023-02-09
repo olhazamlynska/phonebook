@@ -1,9 +1,7 @@
-import { FooterWrapper, FooterH2 } from './Footer.styled';
-
 export const Footer = () => {
   return (
-    <FooterWrapper>
-      <FooterH2>Thank you for using!!!</FooterH2>
-    </FooterWrapper>
+    <div>
+      <h2>Thank you for using!!!</h2>
+    </div>
   );
 };

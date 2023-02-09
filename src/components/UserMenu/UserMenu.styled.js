@@ -1,36 +1,24 @@
 import styled from 'styled-components';
-
-export const Btn = styled.button`
+import { Typography } from '@mui/material';
+export const Btn = styled(Typography)`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 5px 10px;
-  height: 45px;
-  margin-right: ${p => p.theme.space[4]}px;
+  padding: 3px 4px;
+
   border: none;
-  border-radius: ${p => p.theme.radii.normal};
-  color: ${p => p.theme.colors.primaryText};
+  border-radius: 4px;
+  color: #fff;
   text-align: center;
+  text-decoration: none;
   transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1);
 
-  :hover,
-  :focus {
-    background-color: ${p => p.theme.colors.accentColor};
+  :hover:not(.active),
+  :focus-visible:not(.active) {
+    background-color: rgb(37, 150, 190);
   }
-`;
 
-export const OutlinedName = styled.span`
-  font-weight: ${p => p.theme.fontWeights.bold};
-`;
-
-export const UserName = styled.p`
-  text-align: center;
-  flex-grow: 1;
-`;
-
-export const Wrapper = styled.div`
-  min-width: 400px;
-  margin-left: ${p => p.theme.space[4]}px;
-  display: inline-flex;
-  align-items: center;
+  &.active {
+    background-color: rgb(37, 150, 190);
+  }
 `;

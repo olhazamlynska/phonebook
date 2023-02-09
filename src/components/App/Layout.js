@@ -1,21 +1,29 @@
-import { Box } from '@mui/material';
-import { AppBar } from 'components/AppBar/AppBar';
+import { Container } from '@mui/system';
+import { AppHeader } from 'components/AppBar/AppBar';
 import { Footer } from 'components/Footer/Footer';
 import { Suspense } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
 
 export const Layout = () => {
   return (
-    <Box as={'div'} display="flex" flexDirection="column">
-      <AppBar />
-      <Box flexGrow={1}>
+    <div
+      className="container"
+      style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}
+    >
+      <AppHeader />
+
+      <Suspense fallback={null}>
         <main>
-          <Suspense fallback={null}>
+          <Container
+            style={{ maxWidth: 1240, margin: '0 auto', padding: '0 16px' }}
+          >
             <Outlet />
-          </Suspense>
+          </Container>
         </main>
-      </Box>
+      </Suspense>
       <Footer />
-    </Box>
+      <Toaster position="top-right" reverseOrder={false} />
+    </div>
   );
 };

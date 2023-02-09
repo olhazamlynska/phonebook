@@ -3,7 +3,7 @@ import {
   deleteContact,
   updateContact,
   fetchContacts,
-} from './operations';
+} from './contactsOperations';
 
 const { createSlice } = require('@reduxjs/toolkit');
 

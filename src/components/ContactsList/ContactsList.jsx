@@ -2,28 +2,34 @@ import { useSelector } from 'react-redux';
 import {
   selectIsLoading,
   selectVisibleContacts,
-} from 'redux/contacts/selectors';
+  selectError,
+} from 'redux/contacts/contactsSelectors';
 import { Contact } from 'components/Contact/Contact';
-import {
-  ContactsListSTyle,
-  Notification,
-} from 'components/ContactsList/ContactsList.styled';
+
+import { Box, List, Typography } from '@mui/material';
 
 export const ContactsList = () => {
   const contacts = useSelector(selectVisibleContacts);
   const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
 
   return (
-    <>
-      {contacts.length === 0 && !isLoading && (
-        <Notification>Sorry,there no contact!</Notification>
+    <Box sx={{ flexGrow: 1, maxWidth: '800px', m: '0 auto' }}>
+      {contacts.length === 0 && !isLoading && !error && (
+        <Typography
+          sx={{ width: { xs: '90%', sm: '50px' }, m: '4px auto 0 auto' }}
+          component="div"
+          variant="h6"
+        >
+          Sorry,there no contact!
+        </Typography>
       )}
 
-      <ContactsListSTyle>
+      <List>
         {contacts.map(contact => {
           return <Contact key={contact.id} id={contact.id} contact={contact} />;
         })}
-      </ContactsListSTyle>
-    </>
+      </List>
+    </Box>
   );
 };
