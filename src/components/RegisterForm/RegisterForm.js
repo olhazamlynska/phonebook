@@ -9,13 +9,25 @@ import {
   Typography,
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
 
+import AppRegistrationRoundedIcon from '@mui/icons-material/AppRegistrationRounded';
 import { useAuth } from 'hooks';
 import { toast } from 'react-hot-toast';
-import { validationSchemaRegister } from 'constants/validationSchema';
-import { useFormik } from 'formik';
 
+import { useFormik } from 'formik';
+import * as yup from 'yup';
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .required(
+      'Name is required. Name contains only letters, apostrophe, dashes and spaces'
+    ),
+  email: yup.string().email('Enter valid email').required('Email is required.'),
+  password: yup
+    .string('Enter your password')
+    .min(7, 'Password should be of min 7 charecters length')
+    .required('Password is required.'),
+});
 export const RegisterForm = () => {
   const dispatch = useDispatch();
   const { authIsLoading } = useAuth();
@@ -39,7 +51,7 @@ export const RegisterForm = () => {
       email: '',
       password: '',
     },
-    validationSchema: validationSchemaRegister,
+    validationSchema: schema,
     onSubmit: handleSubmit,
   });
 
@@ -59,7 +71,7 @@ export const RegisterForm = () => {
             bgcolor: 'secondary.main',
           }}
         >
-          <LockPersonOutlinedIcon />
+          <AppRegistrationRoundedIcon />
         </Avatar>
         <Typography component="h1" variant="h5" mb={2}>
           Register

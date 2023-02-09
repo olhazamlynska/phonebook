@@ -39,9 +39,9 @@ export default function Home() {
       {!isLoggedIn && (
         <Typography component="p" variant="h6">
           You can <StyleLink to="/register">register</StyleLink> or{' '}
-          <StyleLink to="/login">login</StyleLink>if you have already an
+          <StyleLink to="/login">login</StyleLink> if you have already an
           account. You can add a list of contacts and then edit, delete or
-          folter.
+          filter.
         </Typography>
       )}
       {isLoggedIn && (

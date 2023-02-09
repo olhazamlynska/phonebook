@@ -1,9 +1,9 @@
-import { Container } from '@mui/system';
-import { AppHeader } from 'components/AppBar/AppBar';
-import { Footer } from 'components/Footer/Footer';
 import { Suspense } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { Outlet } from 'react-router-dom';
+import { AppHeader } from 'components/AppHeader/AppHeader';
+import { Footer } from 'components/Footer/Footer';
+import { Container } from '@mui/system';
 
 export const Layout = () => {
   return (

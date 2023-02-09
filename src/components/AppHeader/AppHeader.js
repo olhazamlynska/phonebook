@@ -1,12 +1,13 @@
-import { AppBar, Toolbar, Typography } from '@mui/material';
-import { AuthNav } from 'components/AuthNav/AuthNav';
-import { Navigation } from 'components/Navigation/Navigation';
-import { UserMenu } from 'components/UserMenu/UserMenu';
-import { useAuth } from 'hooks';
 import { Link } from 'react-router-dom';
+import { useAuth } from 'hooks';
+import { AuthNav } from 'components/AuthNav/AuthNav';
+
+import { UserMenu } from 'components/UserMenu/UserMenu';
+import { AppBar, Toolbar, Typography } from '@mui/material';
 
 export const AppHeader = () => {
   const { isLoggedIn } = useAuth();
+
   return (
     <AppBar position="static">
       <Toolbar>
@@ -18,14 +19,29 @@ export const AppHeader = () => {
             fontWeight: 600,
             textDecoration: 'none',
             flexGrow: 1,
-            display: { xs: 'none', mb: 'block' },
+            display: { xs: 'none', sm: 'block' },
             color: 'inherit',
             width: '200px',
           }}
         >
           Phonebook
         </Typography>
-        <Navigation />
+        <Typography
+          component={Link}
+          to="/contacts"
+          variant="h6"
+          sx={{
+            fontWeight: 600,
+            textDecoration: 'none',
+            flexGrow: 1,
+            display: { xs: 'none', sm: 'block' },
+            color: 'inherit',
+            width: '200px',
+          }}
+        >
+          Contacts
+        </Typography>
+
         {isLoggedIn ? <UserMenu /> : <AuthNav />}
       </Toolbar>
     </AppBar>

@@ -5,7 +5,6 @@ import {
   selectError,
 } from 'redux/contacts/contactsSelectors';
 import { Contact } from 'components/Contact/Contact';
-
 import { Box, List, Typography } from '@mui/material';
 
 export const ContactsList = () => {
@@ -17,7 +16,11 @@ export const ContactsList = () => {
     <Box sx={{ flexGrow: 1, maxWidth: '800px', m: '0 auto' }}>
       {contacts.length === 0 && !isLoading && !error && (
         <Typography
-          sx={{ width: { xs: '90%', sm: '50px' }, m: '4px auto 0 auto' }}
+          sx={{
+            width: { xs: '90%', sm: '500px' },
+            m: '4px auto 0 auto',
+            textAlign: 'center',
+          }}
           component="div"
           variant="h6"
         >

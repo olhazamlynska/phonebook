@@ -5,7 +5,6 @@ import { logOut } from 'redux/auth/authOperations';
 import { AddModal } from 'components/AddModal/AddModal';
 import { Btn } from './UserMenu.styled';
 import { Box, IconButton, Typography } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 
@@ -31,6 +30,7 @@ const styleNavLink = {
 export const UserMenu = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
+
   const [isShownModal, setIsShownModal] = useState(false);
 
   const openModal = () => {
@@ -46,16 +46,8 @@ export const UserMenu = () => {
   };
 
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
       <Box>
-        <Typography
-          variant="h6"
-          component={NavLink}
-          sx={styleNavLink}
-          to="/contacts"
-        >
-          Contacts
-        </Typography>
         <Typography
           variant="h6"
           component="button"
@@ -76,7 +68,7 @@ export const UserMenu = () => {
         <Typography
           variant="h6"
           component="p"
-          sx={{ display: { xs: 'none', mb: 'inline-block' } }}
+          sx={{ display: { xs: 'none', sm: 'block' }, color: 'black' }}
         >
           Welcome, {user.name}!
         </Typography>
@@ -84,7 +76,7 @@ export const UserMenu = () => {
           <Typography
             variant="h6"
             component="p"
-            sx={{ display: { xs: 'none', mb: 'inline-block' } }}
+            sx={{ display: { xs: 'none', sm: 'block' } }}
           >
             Log Out
           </Typography>

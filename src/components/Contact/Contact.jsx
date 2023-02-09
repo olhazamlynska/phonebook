@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
+import { EditModal } from 'components/EditModal/EditModal';
 import {
   Avatar,
   IconButton,
@@ -13,7 +14,7 @@ import { deleteContact } from 'redux/contacts/contactsOperations';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import FaceRoundedIcon from '@mui/icons-material/FaceRounded';
-import { EditModal } from 'components/EditModal/EditModal';
+
 export const Contact = ({ contact }) => {
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
@@ -21,9 +22,11 @@ export const Contact = ({ contact }) => {
   const handleOpenModal = () => {
     setIsOpen(true);
   };
+
   const handleCloseModal = () => {
     setIsOpen(false);
   };
+
   const handleDelete = () => {
     dispatch(deleteContact(contact.id))
       .unwrap()

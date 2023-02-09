@@ -1,12 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useFormik } from 'formik';
 import { selectIsLoading } from 'redux/contacts/contactsSelectors';
 import { updateContact } from 'redux/contacts/contactsOperations';
-import { useFormik } from 'formik';
 import { Modal, Box, Grid, TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
-import { validationSchemaAddContact } from 'constants/validationSchema';
+
 import ModeEditOutlineRoundedIcon from '@mui/icons-material/ModeEditOutlineRounded';
 import { toast } from 'react-hot-toast';
+import * as yup from 'yup';
+
 const styleModal = {
   position: 'absolute',
   top: '50%',
@@ -19,20 +21,34 @@ const styleModal = {
   p: 4,
 };
 
+const schema = yup.object().shape({
+  name: yup
+    .string()
+    .required(
+      'Name is required. Name contains only letters, apostrophe, dashes and spaces'
+    ),
+  number: yup
+    .string()
+    .required(
+      'Number is required. It have to strat with "+" and have at least 10 digits'
+    ),
+});
+
 export const EditModal = ({ isOpen, handleClose, id, name, number }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsLoading);
 
   const handleSubmit = (values, { resetForm }) => {
     if (
-      name.trim().toLowercase() === values.name.trim().toLowercase() &&
+      name.trim().toLowerCase() === values.name.trim().toLowerCase() &&
       number === values.number
     ) {
       toast.error(`We have already had contact with such data`);
       return;
     }
+    const data = { id, value: values };
 
-    dispatch(updateContact({ id, values }))
+    dispatch(updateContact(data))
       .unwrap()
       .then(() => {
         toast.success('You add contact!');
@@ -48,7 +64,7 @@ export const EditModal = ({ isOpen, handleClose, id, name, number }) => {
       name,
       number,
     },
-    validationSchema: validationSchemaAddContact,
+    validationSchema: schema,
     onSubmit: handleSubmit,
   });
 

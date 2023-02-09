@@ -1,5 +1,8 @@
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-hot-toast';
+import { useAuth } from 'hooks';
+import { logIn } from 'redux/auth/authOperations';
 import {
   Container,
   Avatar,
@@ -10,11 +13,15 @@ import {
 } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 import LockPersonOutlinedIcon from '@mui/icons-material/LockPersonOutlined';
+import * as yup from 'yup';
 
-import { logIn } from 'redux/auth/authOperations';
-import { useAuth } from 'hooks';
-import { toast } from 'react-hot-toast';
-import { validationSchemaLogIn } from 'constants/validationSchema';
+const schema = yup.object().shape({
+  email: yup.string().email('Enter valid email').required('Email is required.'),
+  password: yup
+    .string('Enter your password')
+    .min(7, 'Password should be of min 7 charecters length')
+    .required('Password is required.'),
+});
 
 export const LoginForm = () => {
   const dispatch = useDispatch();
@@ -39,7 +46,7 @@ export const LoginForm = () => {
       email: '',
       password: '',
     },
-    validationSchema: validationSchemaLogIn,
+    validationSchema: schema,
     onSubmit: handleSubmit,
   });
 
